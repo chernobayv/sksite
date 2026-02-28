@@ -705,24 +705,48 @@ Make sure that it also makes her align with this message.
 If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
 
 async function sendMsg(txt){
-  const inp=document.getElementById('inp'),msgs=document.getElementById('msgs'),typing=document.getElementById('typing');
-  const q=txt||inp.value.trim();if(!q)return;
-  const um=document.createElement('div');um.className='msg user';um.textContent=q;msgs.appendChild(um);inp.value='';
-  msgs.scrollTop=msgs.scrollHeight;msgs.appendChild(typing);typing.classList.add('show');msgs.scrollTop=msgs.scrollHeight;
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:180,system:CTX,messages:[{role:'user',content:q}]})
+  const inp = document.getElementById('inp');
+  const msgs = document.getElementById('msgs');
+  const typing = document.getElementById('typing');
+  
+  const q = txt || inp.value.trim();
+  if(!q) return;
+
+  const um = document.createElement('div');
+  um.className = 'msg user';
+  um.textContent = q;
+  msgs.appendChild(um);
+  inp.value = '';
+  
+=  msgs.scrollTop = msgs.scrollHeight;
+  msgs.appendChild(typing);
+  typing.classList.add('show');
+  msgs.scrollTop = msgs.scrollHeight;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q })
     });
-    const data=await res.json();typing.classList.remove('show');
-    const bm=document.createElement('div');bm.className='msg bot';
-    bm.innerHTML=`<span class="sndr">victoria.ai</span>${data.content[0].text}`;
-    msgs.appendChild(bm);msgs.scrollTop=msgs.scrollHeight;
-  }catch(err){
+    
+    const data = await res.json();
     typing.classList.remove('show');
-    const bm=document.createElement('div');bm.className='msg bot';
-    bm.innerHTML=`<span class="sndr">victoria.ai</span>sorry, something went wrong. email chernobayv05@gmail.com directly.`;
-    msgs.appendChild(bm);msgs.scrollTop=msgs.scrollHeight;
+    
+    const bm = document.createElement('div');
+    bm.className = 'msg bot';
+    bm.innerHTML = `<span class="sndr">victoria.ai</span>${data.reply}`;
+    msgs.appendChild(bm);
+    msgs.scrollTop = msgs.scrollHeight;
+    
+  } catch(err) {
+    console.error(err);
+    typing.classList.remove('show');
+    const bm = document.createElement('div');
+    bm.className = 'msg bot';
+    bm.innerHTML = `<span class="sndr">victoria.ai</span>sorry, something went wrong. email chernobayv05@gmail.com directly.`;
+    msgs.appendChild(bm);
+    msgs.scrollTop = msgs.scrollHeight;
   }
 }
 
