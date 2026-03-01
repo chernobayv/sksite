@@ -1,10 +1,10 @@
 export default async function handler(req, res) {
-  // 1. Set the CORS headers
-  res.setHeader('Access-Control-Allow-Origin', 'https://thisiswhyyoushouldhire.me'); // or '*' to allow any domain
+  // 1. Set the CORS headers to allow your portfolio domain
+  res.setHeader('Access-Control-Allow-Origin', 'https://thisiswhyyoushouldhire.me');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // 2. Intercept the preflight OPTIONS request and hit approve
+  // 2. Intercept the preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
@@ -198,7 +198,8 @@ SafetyKit is a group of engineers committed to deploying AI into the world's lar
 If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    // Updated to gemini-2.0-flash for speed and reliability
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -206,14 +207,16 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: CTX }] },
         contents: [{ role: "user", parts: [{ text: message }] }],
-        generationConfig: { maxOutputTokens: 10000 }
-      }
+        generationConfig: { 
+            maxOutputTokens: 200,
+            temperature: 0.7 
+        }
       })
     });
 
     const data = await response.json();
 
-    // CRASH PREVENTION 2: Check if Google sent an error instead of a response
+    // CRASH PREVENTION 2: Check for Google API errors
     if (data.error) {
       console.error("Google API Error:", data.error.message);
       return res.status(200).json({ reply: `⚠️ Google API Error: ${data.error.message}` });
@@ -225,7 +228,6 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
       return res.status(200).json({ reply: botText });
     }
 
-    // Catch-all for weird formatting
     return res.status(200).json({ reply: "⚠️ Unexpected response from Google." });
 
   } catch (error) {
