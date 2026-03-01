@@ -199,7 +199,7 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
 
   try {
     // Updated to gemini-2.0-flash for speed and reliability
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
