@@ -462,11 +462,11 @@ async function sendMsg(txt) {
   msgs.appendChild(typing);
   typing.classList.add('show');
   msgs.scrollTop = msgs.scrollHeight;
-  try {
-    var res = await fetch('/api/chat', {
+ try {
+    const res = await fetch('https://vercel.com/chernobayvictoria-4821s-projects/sksite/api/chat', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({message: q})
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q })
     });
     var data = await res.json();
     typing.classList.remove('show');
