@@ -208,7 +208,7 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
         systemInstruction: { parts: [{ text: CTX }] },
         contents: [{ role: "user", parts: [{ text: message }] }],
         generationConfig: { 
-            maxOutputTokens: 200,
+            maxOutputTokens: 10000,
             temperature: 0.7 
         }
       })
