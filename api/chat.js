@@ -1,10 +1,10 @@
 export default async function handler(req, res) {
-  // 1. CORS Headers: Tells the browser it's safe to talk to this API
+  // 1. CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*'); 
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // 2. Handle the browser's "preflight" check
+  // Handle preflight checks
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -15,6 +15,11 @@ export default async function handler(req, res) {
 
   const { message } = req.body;
   const apiKey = process.env.GEMINI_API_KEY; 
+
+  // CRASH PREVENTION 1: Check if Vercel has the API Key
+  if (!apiKey) {
+    return res.status(200).json({ reply: "⚠️ Server Error: The GEMINI_API_KEY is missing in Vercel Environment Variables." });
+  }
 
   const CTX = `You are a concise AI assistant helping SafetyKit learn about Victoria Chernobay (Full Stack Engineer Intern candidate). Speak in third person. Keep every response to 2–3 sentences max - short and punchy. Highlight fit with SafetyKit's mission of replacing human reviewers with LLMs. Use only this info:
 
@@ -205,11 +210,24 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
     });
 
     const data = await response.json();
-    const botText = data.candidates[0].content.parts[0].text;
+
+    // CRASH PREVENTION 2: Check if Google sent an error instead of a response
+    if (data.error) {
+      console.error("Google API Error:", data.error.message);
+      return res.status(200).json({ reply: `⚠️ Google API Error: ${data.error.message}` });
+    }
     
-    res.status(200).json({ reply: botText });
+    // If everything is perfect, send the bot text
+    if (data.candidates && data.candidates.length > 0) {
+      const botText = data.candidates[0].content.parts[0].text;
+      return res.status(200).json({ reply: botText });
+    }
+
+    // Catch-all for weird formatting
+    return res.status(200).json({ reply: "⚠️ Unexpected response from Google." });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Something went wrong' });
+    console.error("Fetch Error:", error);
+    return res.status(200).json({ reply: "⚠️ Vercel could not connect to Google at all." });
   }
 }
