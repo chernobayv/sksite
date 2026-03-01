@@ -463,27 +463,34 @@ async function sendMsg(txt) {
   typing.classList.add('show');
   msgs.scrollTop = msgs.scrollHeight;
  try {
-    const res = await fetch('https://sksite-psi.vercel.app/api/chat', {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: q })
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: CTX }] },
+        contents: [{ role: "user", parts: [{ text: message }] }],
+        generationConfig: { maxOutputTokens: 180 }
+      })
     });
-    var data = await res.json();
-    typing.classList.remove('show');
-    var bm = document.createElement('div');
-    bm.className = 'msg bot';
-    bm.innerHTML = '<span class="sndr">victoria.ai</span>' + data.reply;
-    msgs.appendChild(bm);
-    msgs.scrollTop = msgs.scrollHeight;
-  } catch(err) {
-    typing.classList.remove('show');
-    var bm = document.createElement('div');
-    bm.className = 'msg bot';
-    bm.innerHTML = '<span class="sndr">victoria.ai</span>something went wrong. email chernobayv05@gmail.com directly.';
-    msgs.appendChild(bm);
-    msgs.scrollTop = msgs.scrollHeight;
+
+    const data = await response.json();
+    
+    // Safety check: Make sure Google actually sent a valid candidate back
+    if (data.candidates && data.candidates.length > 0) {
+      const botText = data.candidates[0].content.parts[0].text;
+      res.status(200).json({ reply: botText });
+    } else {
+      // If it hit a safety filter or error, return a graceful fallback
+      console.error("Gemini API Error or Block:", data);
+      res.status(200).json({ reply: "I couldn't process that request. Please email chernobayv05@gmail.com directly!" });
+    }
+
+  } catch (error) {
+    console.error("Vercel Server Error:", error);
+    res.status(500).json({ error: 'Something went wrong on the server.' });
   }
-}
 
 function ask(q) { sendMsg(q); }
 </script>
