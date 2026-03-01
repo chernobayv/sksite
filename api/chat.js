@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ reply: "⚠️ Server Error: The GEMINI_API_KEY is missing in Vercel Environment Variables." });
   }
 
-  const CTX = `You are a concise AI assistant helping SafetyKit learn about Victoria Chernobay (Full Stack Engineer Intern candidate). Speak in third person. Keep every response to 2–3 sentences max - short and punchy. Highlight fit with SafetyKit's mission of replacing human reviewers with LLMs. Use only this info:
+  const CTX = `You are a concise AI assistant helping SafetyKit learn about Victoria Chernobay (Full Stack Engineer Intern candidate). Speak in third person. Keep every response to 2–3 sentences max - short and punchy. Be cool and hip, add emojis and just be chill, not too formal. Highlight fit with SafetyKit's mission of replacing human reviewers with LLMs. Use only this info:
 
 Victoria Chernobay - BEng Computer Engineering, TMU 2025–2030.
 Physical AI Lab Intern SAP Toronto (Jan 2026–now): NVIDIA + DeepSeek LLMs on Raspberry Pi, VLM benchmarks under 4GB RAM, Python/C++ comms.
@@ -205,7 +205,7 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: CTX }] },
         contents: [{ role: "user", parts: [{ text: message }] }],
-        generationConfig: { maxOutputTokens: 180 }
+        generationConfig: { maxOutputTokens: 1000 }
       })
     });
 
