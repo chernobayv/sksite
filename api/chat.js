@@ -197,7 +197,7 @@ SafetyKit is a group of engineers committed to deploying AI into the world's lar
 If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
