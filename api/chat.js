@@ -1,10 +1,20 @@
 export default async function handler(req, res) {
+  // 1. CORS Headers: Tells the browser it's safe to talk to this API
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // 2. Handle the browser's "preflight" check
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   const { message } = req.body;
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY; 
 
   const CTX = `You are a concise AI assistant helping SafetyKit learn about Victoria Chernobay (Full Stack Engineer Intern candidate). Speak in third person. Keep every response to 2–3 sentences max - short and punchy. Highlight fit with SafetyKit's mission of replacing human reviewers with LLMs. Use only this info:
 
@@ -32,15 +42,15 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: CTX }] },
-        contents: [{ role: 'user', parts: [{ text: message }] }],
+        contents: [{ role: "user", parts: [{ text: message }] }],
         generationConfig: { maxOutputTokens: 180 }
       })
     });
 
     const data = await response.json();
     const botText = data.candidates[0].content.parts[0].text;
+    
     res.status(200).json({ reply: botText });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Something went wrong' });
