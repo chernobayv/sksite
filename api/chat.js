@@ -205,6 +205,7 @@ If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: CTX }] },
         contents: [{ role: "user", parts: [{ text: message }] }],
+        generationConfig: { maxOutputTokens: 10000 }
       }
       })
     });
