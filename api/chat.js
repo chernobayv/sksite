@@ -1,12 +1,13 @@
 export default async function handler(req, res) {
-  // 1. CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', '*'); 
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  // 1. Set the CORS headers
+  res.setHeader('Access-Control-Allow-Origin', 'https://thisiswhyyoushouldhire.me'); // or '*' to allow any domain
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight checks
+  // 2. Intercept the preflight OPTIONS request and hit approve
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.status(200).end();
+    return;
   }
 
   if (req.method !== 'POST') {
