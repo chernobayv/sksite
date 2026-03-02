@@ -253,7 +253,7 @@ footer a:hover{color:var(--pk);}
     <div class="curt curt-r" id="cr"></div>
     <div class="stage-wrap">
       <div id="yt-thumb" onclick="playVideo()" title="Click to watch">
-        <img src="https://img.youtube.com/vi/_W0bSen8Qjg/maxresdefault.jpg" alt="Victoria Chernobay intro video" onerror="this.src='https://img.youtube.com/vi/_W0bSen8Qjg/hqdefault.jpg'">
+        <img src="https://img.youtube.com/vi/xC0VRWjkS8U/maxresdefault.jpg" alt="Robot demo video" onerror="this.src='https://img.youtube.com/vi/_xC0VRWjkS8U/hqdefault.jpg'">
         <div class="yt-play">
           <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="68" height="48" rx="10" fill="rgba(0,0,0,0.7)"/>
@@ -420,7 +420,7 @@ function playVideo() {
   document.getElementById('yt-thumb').style.display = 'none';
   var player = document.getElementById('player');
   player.style.display = 'block';
-  player.src = 'https://www.youtube-nocookie.com/embed/_W0bSen8Qjg?autoplay=1&rel=0&modestbranding=1&enablejsapi=1';
+  player.src = 'https://www.youtube-nocookie.com/embed/xC0VRWjkS8U?autoplay=1&rel=0&modestbranding=1&enablejsapi=1';
   window.addEventListener('message', function(e) {
     try {
       var d = JSON.parse(e.data);
