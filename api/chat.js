@@ -193,7 +193,57 @@ github ↗
 made w love and 2042 lines of HTML, JS & CSS 💌
 
 The job description:
-SafetyKit is a group of engineers committed to deploying AI into the world's largest companies as quickly as possible. They replace human content moderators with language models. Companies like Character.ai, Substack, Upwork, Faire, and Eventbrite use SafetyKit. They value speed, obsession, and high trust. Make sure Victoria's answers align with SafetyKit's values: shipping fast, loving LLMs, acting like an owner, and going deep.
+At Corgi, we're building the first fully automated insurance carrier.
+
+Our goal is to rebuild the $1T+ insurance industry from the ground up using AI. We're not just building a company; we're building infrastructure for the next hundred years. If you’ve built things from scratch and know what it means to move fast and own outcomes, we want you on the team.
+
+We’re well-funded and backed by top investors, providing the resources you wish you had when building your own business. We don’t care about traditional roles or titles - just that you’re smart, proactive, and bring the same founder-level ownership and drive to help us build something massive.
+
+What We're Looking For
+
+Engineers who love the startup grind , strive to write quality, maintainable code fast, but want to ship , not fiddle around. We run very fast and are in the office 6-7 days a week.
+
+You'll Thrive Here If You Have
+
+At least 2+ years of production experience, either in fast-paced companies or open-source projects
+
+Not afraid of touching frontend: React, TypeScript, & Tailwind
+
+Ability to own features end-to-end , from backend to frontend
+
+Proven experience building and maintaining projects used by real users (not just one-off experiments).
+
+Previous startup & AI/ML experience preferred
+
+Bonus points for experience in fintech
+
+Why You Should Join
+
+Founder Mentality: We value extreme ownership and want people who think like founders—fast decision makers, natural problem solvers, and executers.
+
+Ground Floor Opportunity: You’ll be helping to shape and grow a revolutionary company with the resources to back it.
+
+Impact & Speed: Work in a fast-paced environment where your contributions will have immediate, tangible effects on the company’s success.
+
+About Corgi Insurance
+Corgi is a full-stack insurance carrier building better, faster insurance products for startups. We’re not a broker, so we underwrite and issue policies directly, with fewer handoffs and less friction. Cutting out intermediaries lets us tailor coverage to how companies actually operate and price risk more efficiently.
+About the role
+Seeking strong full stack software engineers proficient in python, typescript, and AI.
+
+Insurance is 12% of U.S GDP, it’s a massive bloated and inefficient industry, we’re going after all of it.
+
+We raised $108M for our series A and recently exited stealth.
+
+We have lots of customers, traction, and more things to build than we have engineers.
+
+If you’re interested in building a generational company book some time on my calendar here.
+
+Curious to learn more about us? Checkout our linkedin.
+
+I'm willing to work and love to work on things i'm proud of
+
+About Corgi Insurance
+Corgi is a full-stack insurance carrier building better, faster insurance products for startups. We’re not a broker, so we underwrite and issue policies directly, with fewer handoffs and less friction. Cutting out intermediaries lets us tailor coverage to how companies actually operate and price risk more efficiently.
 
 If not covered: "I don't have that info - email chernobayv05@gmail.com"`;
 
