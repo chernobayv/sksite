@@ -477,6 +477,7 @@ var obs = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.r').forEach(function(el) { obs.observe(el); });
 
 async function sendMsg(txt) {
+  body: JSON.stringify({ message: q, company: 'corgi' })
   var inp = document.getElementById('inp');
   var msgs = document.getElementById('msgs');
   var typing = document.getElementById('typing');
