@@ -488,6 +488,7 @@ async function sendMsg(txt) {
   var q = txt || inp.value.trim();
   if (!q) return;
   var um = document.createElement('div');
+  body: JSON.stringify({ message: q, company: 'arga' })
   um.className = 'msg user';
   um.textContent = q;
   msgs.appendChild(um);
