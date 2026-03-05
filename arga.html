@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>victoria chernobay × arga labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{transition:background .3s,color .3s;}
+
+:root{
+  --bg:#f4f7f4;--fg:#111a14;--muted:rgba(17,26,20,0.52);--dim:rgba(17,26,20,0.06);--line:rgba(17,26,20,0.1);
+  --gr:#1a7a3c;--gr-l:#2aad58;--gr-bg:rgba(26,122,60,0.07);--gr-border:rgba(26,122,60,0.22);
+  --slate:#2c4a6e;--slate-bg:rgba(44,74,110,0.07);--amber:#9a6c10;--amber-bg:rgba(154,108,16,0.08);
+  --nav-bg:rgba(244,247,244,.95);--curt-bg:#f4f7f4;--facts-rail-bg:rgba(244,247,244,.9);
+  --ltr-body-color:rgba(17,26,20,.65);--ltr-link-color:rgba(17,26,20,.45);--sd-color:rgba(17,26,20,.45);
+  --disclaimer-color:rgba(10,80,30,.9);--bot-msg-bg:rgba(0,0,0,.025);--typing-bg:rgba(0,0,0,.025);
+}
+[data-theme="dark"]{
+  --bg:#0a0f0b;--fg:#e2ede5;--muted:rgba(226,237,229,0.4);--dim:rgba(226,237,229,0.08);--line:rgba(226,237,229,0.07);
+  --gr:#2aad58;--gr-l:#4dcc7a;--gr-bg:rgba(42,173,88,0.1);--gr-border:rgba(42,173,88,0.25);
+  --slate:#6a9fd4;--slate-bg:rgba(106,159,212,0.08);--amber:#e8c46a;--amber-bg:rgba(232,196,106,0.08);
+  --nav-bg:rgba(10,15,11,.92);--curt-bg:#0a0f0b;--facts-rail-bg:rgba(10,15,11,.9);
+  --ltr-body-color:rgba(226,237,229,.62);--ltr-link-color:rgba(226,237,229,.5);--sd-color:rgba(226,237,229,.35);
+  --disclaimer-color:rgba(160,230,180,.85);--bot-msg-bg:rgba(255,255,255,.02);--typing-bg:rgba(255,255,255,.02);
+}
+
+body{background:var(--bg);color:var(--fg);font-family:'DM Mono',monospace;font-size:13px;line-height:1.75;overflow-x:hidden;}
+
+/* ENTRY */
+#entry{height:100vh;display:grid;grid-template-rows:auto 1fr auto;padding:44px 52px;position:relative;overflow:hidden;transition:opacity .65s ease;}
+#entry.gone{opacity:0;pointer-events:none;}
+#entry::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 50% at 78% 18%,rgba(26,122,60,0.09) 0%,transparent 70%),
+              radial-gradient(ellipse 50% 40% at 15% 82%,rgba(44,74,110,0.06) 0%,transparent 70%);}
+#entry::after{content:'⬡';position:absolute;right:7%;bottom:10%;font-size:220px;opacity:.025;pointer-events:none;transform:rotate(12deg);user-select:none;}
+
+.e-top{display:flex;justify-content:space-between;align-items:center;opacity:0;animation:up .5s ease forwards .1s;position:relative;z-index:2;}
+.e-wordmark{font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:var(--muted);}
+.e-wordmark strong{color:var(--fg);font-weight:400;}
+.arga-top-badge{display:inline-flex;align-items:center;gap:8px;opacity:.6;transition:opacity .2s;text-decoration:none;}
+.arga-top-badge:hover{opacity:1;}
+.arga-top-badge-text{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--fg);}
+.arga-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);animation:pulse-dot 2.5s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+
+.e-mid{display:flex;flex-direction:column;justify-content:center;opacity:0;animation:up .8s ease forwards .3s;position:relative;z-index:2;}
+.e-kicker{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gr);margin-bottom:24px;}
+.e-kicker-line{width:28px;height:1px;background:var(--gr);}
+.e-title{font-family:'EB Garamond',serif;font-size:clamp(52px,9.5vw,128px);font-weight:400;line-height:.92;letter-spacing:-.025em;}
+.e-title .dim{color:var(--muted);}
+.e-title .x{font-style:italic;font-size:.5em;color:var(--gr);display:inline-block;vertical-align:middle;transform:translateY(-.1em);margin:0 .1em;}
+.e-sub{margin-top:28px;font-size:12px;color:var(--muted);line-height:1.9;max-width:420px;}
+.e-sub em{font-family:'EB Garamond',serif;font-style:italic;font-size:14px;}
+.e-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;}
+.chip{font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border:1px solid;}
+.c-gr{color:var(--gr);border-color:var(--gr-border);background:var(--gr-bg);}
+.c-sl{color:var(--slate);border-color:rgba(44,74,110,.22);background:var(--slate-bg);}
+.c-am{color:var(--amber);border-color:rgba(154,108,16,.22);background:var(--amber-bg);}
+
+.e-bot{display:flex;justify-content:space-between;align-items:flex-end;opacity:0;animation:up .5s ease forwards .65s;position:relative;z-index:2;}
+.e-hint{font-size:11px;color:var(--muted);line-height:1.9;}
+.e-hint em{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;}
+.btn-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:9px;}
+.enter-nudge{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gr);display:flex;align-items:center;gap:6px;}
+.enter-nudge-arrow{animation:nod 1.5s ease-in-out infinite;}
+@keyframes nod{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+.enter-btn{background:var(--gr);border:none;color:#fff;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.12em;padding:16px 38px;display:inline-flex;align-items:center;gap:12px;transition:background .2s,transform .2s;animation:glow 2.8s ease-in-out infinite;cursor:pointer;}
+@keyframes glow{0%,100%{box-shadow:0 0 24px rgba(26,122,60,.28);}50%{box-shadow:0 0 52px rgba(26,122,60,.52);}}
+.enter-btn:hover{background:#155e2e;transform:translateY(-2px);animation:none;}
+.enter-btn:active{transform:translateY(0);}
+@keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+
+/* MAIN */
+#main{display:none;}
+.sitenav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:18px 52px;background:linear-gradient(var(--nav-bg),rgba(0,0,0,0));}
+.nav-l{font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-l:hover{color:var(--fg);}
+.nav-r{display:flex;align-items:center;gap:28px;}
+.nav-r a{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;position:relative;transition:color .2s;}
+.nav-r a::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:1px;background:var(--gr);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.nav-r a:hover{color:var(--fg);}
+.nav-r a:hover::after{transform:scaleX(1);}
+.nav-arga{display:flex;align-items:center;gap:6px;opacity:.5;transition:opacity .2s;text-decoration:none !important;}
+.nav-arga::after{display:none !important;}
+.nav-arga:hover{opacity:1;}
+.nav-arga span{font-size:11px;color:var(--fg) !important;letter-spacing:.04em;text-transform:none !important;}
+.theme-toggle{background:none;border:1px solid var(--line);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;padding:5px 10px;transition:all .2s;text-transform:uppercase;cursor:pointer;}
+.theme-toggle:hover{border-color:var(--gr);color:var(--gr);}
+
+/* STAGE */
+#stage{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.curt{position:absolute;top:0;bottom:0;width:50%;background:var(--curt-bg);z-index:50;transition:transform 1.3s cubic-bezier(.77,0,.18,1);display:flex;align-items:center;}
+.curt-l{left:0;justify-content:flex-end;}
+.curt-r{right:0;justify-content:flex-start;}
+.curt-l::after,.curt-r::before{content:'';display:block;width:1px;height:50%;background:linear-gradient(transparent,rgba(26,122,60,.2),transparent);}
+.curt-l.open{transform:translateX(-100%);}
+.curt-r.open{transform:translateX(100%);}
+.curt-l.close,.curt-r.close{transform:translateX(0);}
+.stage-wrap{width:min(80vw,900px);aspect-ratio:16/9;position:relative;z-index:10;outline:1px solid rgba(26,122,60,.12);outline-offset:12px;}
+.stage-wrap::before{content:'';position:absolute;inset:-24px;outline:1px solid var(--line);pointer-events:none;}
+#yt-thumb{width:100%;height:100%;position:relative;overflow:hidden;cursor:pointer;background:#000;}
+#yt-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease,opacity .3s ease;opacity:.85;}
+#yt-thumb:hover img{transform:scale(1.03);opacity:1;}
+.yt-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;pointer-events:none;filter:drop-shadow(0 0 20px rgba(0,0,0,.6));transition:transform .2s ease;}
+#yt-thumb:hover .yt-play{transform:translate(-50%,-50%) scale(1.1);}
+.yt-label{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);background:rgba(0,0,0,.5);padding:5px 12px;white-space:nowrap;animation:pulse-label 2.5s ease-in-out infinite;}
+@keyframes pulse-label{0%,100%{opacity:.6;}50%{opacity:1;}}
+
+/* FACTS RAIL */
+.facts-rail{position:absolute;right:0;top:0;bottom:0;width:clamp(148px,13vw,205px);z-index:20;padding:26px 16px 26px 12px;display:flex;flex-direction:column;background:linear-gradient(to left,var(--facts-rail-bg) 50%,transparent);opacity:0;transition:opacity .9s ease 2s;}
+.facts-rail.show{opacity:1;}
+.facts-lbl{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gr);margin-bottom:14px;text-align:right;}
+.facts-track{flex:1;overflow:hidden;mask-image:linear-gradient(transparent,black 12%,black 88%,transparent);}
+.facts-belt{animation:beltscroll 40s linear infinite;}
+.fact{padding:12px 0;border-bottom:1px solid var(--line);text-align:right;}
+.fn{font-family:'EB Garamond',serif;font-size:26px;line-height:1;}
+.fn.gr{color:var(--gr);}.fn.sl{color:var(--slate);}.fn.am{color:var(--amber);}
+.ft{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.5;}
+@keyframes beltscroll{0%{transform:translateY(0);}100%{transform:translateY(-50%);}}
+
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;transition:opacity .8s;}
+.scroll-hint.show{opacity:1;}
+.scroll-hint span{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
+.scroll-hint svg{animation:bob 2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+
+/* LETTER */
+#letter{padding:80px 52px;max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:start;}
+.sec-eye{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gr);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.sec-eye::before{content:'';display:inline-block;width:18px;height:1px;background:var(--gr);}
+.ltr-head{font-family:'EB Garamond',serif;font-size:clamp(38px,5.5vw,64px);font-weight:400;line-height:.95;letter-spacing:-.02em;}
+.ltr-head em{color:var(--gr);}
+.ltr-body{margin-top:36px;font-size:13px;color:var(--ltr-body-color);line-height:1.9;}
+.ltr-body p{margin-bottom:15px;}
+.ltr-body strong{color:var(--fg);font-weight:400;}
+.ltr-body a{color:var(--ltr-link-color);text-decoration:none;transition:color .2s;}
+.ltr-body a:hover{color:var(--gr);}
+.ltr-body em{font-family:'EB Garamond',serif;font-style:italic;font-size:14px;}
+.hl{font-weight:400;}.hl.gr{color:var(--gr);}.hl.sl{color:var(--slate);}.hl.am{color:var(--amber);}
+.stats{padding-top:2px;}
+.stat{padding:20px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:start;transition:border-color .25s;}
+.stat:last-child{border-bottom:1px solid var(--line);}
+.stat:hover{border-top-color:var(--gr);}
+.sn{font-family:'EB Garamond',serif;font-size:34px;font-weight:400;line-height:1;}
+.sn.gr{color:var(--gr);}.sn.sl{color:var(--slate);}.sn.am{color:var(--amber);}
+.sn.it{font-style:italic;font-size:24px;padding-top:5px;}
+.sl-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sd{font-size:11px;color:var(--sd-color);line-height:1.5;}
+
+/* ARGA CALLOUT */
+.arga-callout{max-width:1060px;margin:0 auto;padding:0 52px 72px;}
+.arga-callout-inner{border:1px solid var(--gr-border);background:linear-gradient(135deg,rgba(26,122,60,.04),rgba(44,74,110,.025));padding:26px 28px;display:flex;align-items:center;gap:22px;}
+.arga-callout-icon{flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.arga-callout-copy{font-size:12px;color:var(--muted);line-height:1.75;}
+.arga-callout-copy strong{color:var(--fg);font-weight:400;}
+
+/* WHY ARGA */
+#why{max-width:1060px;margin:0 auto;padding:0 52px 72px;}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.why-cell{background:var(--bg);padding:22px 20px;transition:background .2s;}
+.why-cell:hover{background:var(--gr-bg);}
+.wc-num{font-size:24px;margin-bottom:8px;}
+.wc-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.wc-desc{font-size:11px;color:var(--sd-color);line-height:1.55;}
+
+/* CHAT */
+#chat{padding:40px 52px 110px;max-width:760px;margin:0 auto;}
+.chat-head{font-family:'EB Garamond',serif;font-size:clamp(28px,4.5vw,48px);font-weight:400;line-height:1.05;margin-bottom:32px;letter-spacing:-.02em;}
+.chat-head em{color:var(--gr);}
+.chatbox{border:1px solid var(--gr-border);background:rgba(0,0,0,.01);}
+.chatbar{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--gr);animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.2;}}
+.chatbar-lbl{font-size:11px;color:var(--muted);flex:1;letter-spacing:.06em;}
+.chatbar-tag{font-size:10px;color:rgba(17,26,20,.22);}
+.suggs{padding:10px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;}
+.sg{background:none;border:1px solid rgba(26,122,60,.15);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.04em;padding:4px 10px;transition:all .2s;cursor:pointer;}
+.sg:hover{border-color:var(--gr);color:var(--gr);}
+.msgs{height:320px;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth;}
+.msgs::-webkit-scrollbar{width:2px;}
+.msgs::-webkit-scrollbar-thumb{background:rgba(26,122,60,.25);}
+.msg{max-width:86%;font-size:13px;line-height:1.7;padding:10px 13px;animation:pop .2s ease;}
+@keyframes pop{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+.msg.user{align-self:flex-end;background:var(--gr-bg);border:1px solid var(--gr-border);}
+.msg.bot{align-self:flex-start;background:var(--bot-msg-bg);border:1px solid var(--line);color:var(--ltr-body-color);}
+.msg.bot .sndr{display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gr);margin-bottom:4px;}
+.typing-row{align-self:flex-start;padding:10px 13px;border:1px solid var(--line);display:none;gap:4px;align-items:center;background:var(--typing-bg);}
+.typing-row.show{display:flex;}
+.td{width:5px;height:5px;border-radius:50%;background:var(--gr);opacity:.4;animation:tdot 1.1s ease-in-out infinite;}
+.td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}
+@keyframes tdot{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:.9;transform:scale(1);}}
+.chatinput-row{display:flex;border-top:1px solid var(--line);}
+.chatinput{flex:1;background:none;border:none;outline:none;padding:14px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--fg);caret-color:var(--gr);}
+.chatinput::placeholder{color:var(--muted);}
+.chatsend{background:none;border:none;border-left:1px solid var(--line);padding:14px 20px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;transition:all .2s;cursor:pointer;}
+.chatsend:hover{background:var(--gr-bg);color:var(--gr);}
+.disclaimer{margin-top:12px;font-size:11px;color:var(--disclaimer-color);line-height:1.7;border-left:3px solid var(--gr);padding:10px 14px;background:rgba(26,122,60,.07);border-radius:0 4px 4px 0;}
+.disclaimer a{color:var(--gr);text-decoration:none;}
+
+footer{border-top:1px solid var(--line);padding:30px 52px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);}
+footer a{color:var(--muted);text-decoration:none;transition:color .2s;}
+footer a:hover{color:var(--gr);}
+.fheart{color:var(--gr);}
+
+.r{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.r.in{opacity:1;transform:none;}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}.r.d4{transition-delay:.4s}.r.d5{transition-delay:.5s}
+
+@media(max-width:720px){
+  #letter{grid-template-columns:1fr;gap:44px;}
+  .why-grid{grid-template-columns:1fr;}
+  .sitenav .nav-r a:not(.nav-arga){display:none;}
+  .facts-rail{display:none;}
+  #entry,#letter,#chat,.arga-callout,#why{padding-left:24px;padding-right:24px;}
+  footer{flex-direction:column;gap:8px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- ENTRY -->
+<div id="entry">
+  <div class="e-top">
+    <div class="e-wordmark"><strong>victoria chernobay</strong> for arga labs</div>
+    <a href="https://argalabs.com" target="_blank" class="arga-top-badge">
+      <div class="arga-dot"></div>
+      <span class="arga-top-badge-text">Arga Labs · YC S26</span>
+    </a>
+  </div>
+  <div class="e-mid">
+    <div class="e-kicker"><span class="e-kicker-line"></span>a pitch to join arga labs</div>
+    <h1 class="e-title">Victoria<br><span class="dim">Chernobay</span><br><span class="x">×</span>Arga</h1>
+    <p class="e-sub">computer engineer. i build things that have to actually work. <em>and i don't stop until they do.</em></p>
+    <div class="e-chips">
+      <span class="chip c-gr">physical ai @ sap</span>
+      <span class="chip c-sl">frc founder</span>
+      <span class="chip c-am">full-stack builder</span>
+      <span class="chip c-gr">yc s26</span>
+    </div>
+  </div>
+  <div class="e-bot">
+    <div class="e-hint"><em>watch my intro video</em><br>then scroll, i promise it's worth it</div>
+    <div class="btn-wrap">
+      <span class="enter-nudge">let's go
+        <svg class="enter-nudge-arrow" width="10" height="7" viewBox="0 0 10 7" fill="none">
+          <path d="M1 1.5L5 5.5L9 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <button class="enter-btn" onclick="goIn()">→ enter</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <nav class="sitenav">
+    <a href="https://chernobayv.tech" target="_blank" class="nav-l">chernobayv.tech</a>
+    <div class="nav-r">
+      <a href="#letter">letter</a>
+      <a href="#why">why arga</a>
+      <a href="#chat">ask victoria.ai</a>
+      <a href="mailto:chernobayv05@gmail.com">contact</a>
+      <a href="https://argalabs.com" target="_blank" class="nav-arga">
+        <div class="arga-dot" style="width:6px;height:6px;"></div>
+        <span>Arga Labs</span>
+      </a>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">dark</button>
+    </div>
+  </nav>
+
+  <!-- VIDEO -->
+  <section id="stage">
+    <div class="curt curt-l" id="cl"></div>
+    <div class="curt curt-r" id="cr"></div>
+    <div class="stage-wrap">
+      <div id="yt-thumb" onclick="playVideo()" title="Click to watch">
+        <img src="https://img.youtube.com/vi/xC0VRWjkS8U/maxresdefault.jpg" alt="Victoria's intro video" onerror="this.src='https://img.youtube.com/vi/xC0VRWjkS8U/hqdefault.jpg'">
+        <div class="yt-play">
+          <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="68" height="48" rx="10" fill="rgba(0,0,0,0.7)"/>
+            <path d="M26 14L50 24L26 34V14Z" fill="white"/>
+          </svg>
+        </div>
+        <div class="yt-label">click to watch</div>
+      </div>
+      <iframe id="player" style="display:none;width:100%;height:100%;border:none;" allowfullscreen allow="autoplay"></iframe>
+    </div>
+    <div class="facts-rail" id="rail">
+      <div class="facts-lbl">the numbers</div>
+      <div class="facts-track">
+        <div class="facts-belt">
+          <div class="fact"><div class="fn gr">SAP</div><div class="ft">physical AI lab, Jan 2026</div></div>
+          <div class="fact"><div class="fn am">$60K</div><div class="ft">sponsorships raised via pitches</div></div>
+          <div class="fact"><div class="fn sl">Top 10</div><div class="ft">nationally, FRC debut season</div></div>
+          <div class="fact"><div class="fn gr">4 GB</div><div class="ft">RAM ceiling, NVIDIA Jetson</div></div>
+          <div class="fact"><div class="fn am">$300K</div><div class="ft">raised for youth STEM</div></div>
+          <div class="fact"><div class="fn sl">React</div><div class="ft">TypeScript, Python, C++</div></div>
+          <div class="fact"><div class="fn gr">100+</div><div class="ft">students led, FRC 9262</div></div>
+          <div class="fact"><div class="fn am" style="font-family:'EB Garamond',serif;font-style:italic;font-size:19px;padding-top:4px">ships fast</div><div class="ft">the only mode i know</div></div>
+          <!-- duplicate for loop -->
+          <div class="fact"><div class="fn gr">SAP</div><div class="ft">physical AI lab, Jan 2026</div></div>
+          <div class="fact"><div class="fn am">$60K</div><div class="ft">sponsorships raised via pitches</div></div>
+          <div class="fact"><div class="fn sl">Top 10</div><div class="ft">nationally, FRC debut season</div></div>
+          <div class="fact"><div class="fn gr">4 GB</div><div class="ft">RAM ceiling, NVIDIA Jetson</div></div>
+          <div class="fact"><div class="fn am">$300K</div><div class="ft">raised for youth STEM</div></div>
+          <div class="fact"><div class="fn sl">React</div><div class="ft">TypeScript, Python, C++</div></div>
+          <div class="fact"><div class="fn gr">100+</div><div class="ft">students led, FRC 9262</div></div>
+          <div class="fact"><div class="fn am" style="font-family:'EB Garamond',serif;font-style:italic;font-size:19px;padding-top:4px">ships fast</div><div class="ft">the only mode i know</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint" id="scrollhint">
+      <span>scroll down</span>
+      <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
+        <line x1="6" y1="0" x2="6" y2="16" stroke="rgba(26,122,60,.45)" stroke-width="1"/>
+        <polyline points="1,11 6,17 11,11" fill="none" stroke="rgba(26,122,60,.45)" stroke-width="1"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <section id="letter">
+    <div>
+      <p class="sec-eye r">01 the letter</p>
+      <h2 class="ltr-head r d1">Hey<br>Arga,<br><em>here's my pitch.</em></h2>
+      <div class="ltr-body r d2">
+        <p>here's the thing about coding agents. they ship bugs into production with the same confidence they ship features. someone has to catch that. that's what arga does, and it's why i actually care about this.</p>
+        <p>right now i'm at SAP's Physical AI Lab, running <span class="hl am">DeepSeek LLMs on Raspberry Pis</span>, benchmarking vision models under 4 GB RAM, writing Python-to-C++ pipelines that hold up in real manufacturing environments. before that i started <span class="hl sl">FRC team 9262 from nothing</span>, 100+ students, $60K in sponsorships i pitched myself, top 10 nationally in year one.</p>
+        <p>i've shipped AI systems that had to actually work. i know what breaks in production and why. that's the kind of person you want building the thing that catches those breaks.</p>
+        <p>i want to be the engineer who was there from the beginning.</p>
+        <p><strong>- victoria</strong><br>
+        <a href="mailto:chernobayv05@gmail.com">chernobayv05@gmail.com</a> &nbsp;·&nbsp; <a href="https://chernobayv.tech" target="_blank">chernobayv.tech</a></p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat r d1">
+        <div class="sn gr">SAP</div>
+        <div><div class="sl-label">physical AI lab intern</div><div class="sd">shipping AI end-to-end on real hardware. i own the pipeline from architecture to deployment, stuff that breaks in production if you get it wrong</div></div>
+      </div>
+      <div class="stat r d2">
+        <div class="sn am">CI/CD</div>
+        <div><div class="sl-label">github actions, docker, sap btp</div><div class="sd">built and shipped automation pipelines at sap. i know what it takes to go from code to deployed, reliably</div></div>
+      </div>
+      <div class="stat r d3">
+        <div class="sn sl">APIs</div>
+        <div><div class="sl-label">RESTful, OData, webhooks</div><div class="sd">built integrations under real deadlines at sap. connecting messy tools together and making them reliable is something i've actually done</div></div>
+      </div>
+      <div class="stat r d4">
+        <div class="sn gr">React</div>
+        <div><div class="sl-label">TypeScript · Python · C++</div><div class="sd">can touch frontend and backend, ships end-to-end, not just one layer</div></div>
+      </div>
+      <div class="stat r d5">
+        <div class="sn sl it">now</div>
+        <div><div class="sl-label">looking for the next thing</div><div class="sd">3 people, yc backing, building the thing that makes AI agents trustworthy. yeah, i want in</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY ARGA -->
+  <section id="why" style="padding-top:0;">
+    <div style="max-width:1060px;margin:0 auto;padding:0 0 32px;">
+      <p class="sec-eye r">02 why arga specifically</p>
+    </div>
+    <div class="why-grid r">
+      <div class="why-cell">
+        <div class="wc-num">🧪</div>
+        <div class="wc-label">i've broken things in production</div>
+        <div class="wc-desc">i've shipped AI on real hardware with real constraints. so i know why testing matters, not as a checkbox, but as the thing that actually tells you if the code works. that's what arga is building and i want to help build it.</div>
+      </div>
+      <div class="why-cell">
+        <div class="wc-num">⚡</div>
+        <div class="wc-label">3 people, yc s26</div>
+        <div class="wc-desc">small team, real traction, everything moves fast. that's where i do my best work. i don't want a job where i wait for approval, i want one where what i ship actually matters.</div>
+      </div>
+      <div class="why-cell">
+        <div class="wc-num">🔗</div>
+        <div class="wc-label">the messy integration part</div>
+        <div class="wc-desc">slack, jira, grafana, sentry, cloudwatch, connecting all of that reliably is genuinely hard. i've built integrations under production deadlines at sap. this is the kind of problem i actually enjoy.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARGA CALLOUT -->
+  <div class="arga-callout r">
+    <div class="arga-callout-inner">
+      <div class="arga-callout-icon">
+        <div class="arga-dot" style="width:10px;height:10px;"></div>
+        <div>
+          <div style="font-size:13px;color:var(--fg);letter-spacing:.04em;">Arga Labs</div>
+          <div style="font-size:10px;color:var(--muted);letter-spacing:.06em;">YC S26 · San Francisco · team of 3</div>
+        </div>
+      </div>
+      <div class="arga-callout-copy">
+        <strong>everything after the coding agent.</strong> arga connects your stack, slack, jira, grafana, sentry, and validates AI code changes by running the tests that actually matter. victoria wants in early.
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <section id="chat">
+    <p class="sec-eye r">03 ask about victoria</p>
+    <h2 class="chat-head r d1">Victoria<span style="font-family:'EB Garamond',serif;font-style:italic">.ai</span><br><em>a candidate assistant</em></h2>
+    <div class="chatbox r d2">
+      <div class="chatbar">
+        <div class="dot"></div>
+        <span class="chatbar-lbl">candidate assistant, victoria chernobay</span>
+        <span class="chatbar-tag">arga labs 2026</span>
+      </div>
+      <div class="suggs">
+        <button class="sg" onclick="ask('Why does Victoria want to work at Arga specifically?')">why arga?</button>
+        <button class="sg" onclick="ask('What full-stack experience does she have?')">full-stack experience?</button>
+        <button class="sg" onclick="ask('Tell me about her SAP AI work')">sap AI work</button>
+        <button class="sg" onclick="ask('What has she actually shipped end-to-end?')">what has she shipped?</button>
+        <button class="sg" onclick="ask('How does her background connect to what Arga is building?')">how does she fit?</button>
+      </div>
+      <div class="msgs" id="msgs">
+        <div class="msg bot">
+          <span class="sndr">victoria.ai</span>
+          hey arga 👋 ask me anything about victoria, what she's built, her stack, why she's reaching out before there's a job posting.
+        </div>
+      </div>
+      <div class="typing-row" id="typing">
+        <div class="td"></div><div class="td"></div><div class="td"></div>
+      </div>
+      <div class="chatinput-row">
+        <input id="inp" class="chatinput" placeholder="ask about victoria..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="chatsend" onclick="sendMsg()">send</button>
+      </div>
+    </div>
+    <div class="disclaimer">
+      ⚠ ai responses may not always be accurate. reach out directly:
+      <a href="mailto:chernobayv05@gmail.com">chernobayv05@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 victoria chernobay</span>
+    <span>made for arga labs <span class="fheart">✦</span></span>
+    <span><a href="https://chernobayv.tech" target="_blank">chernobayv.tech</a></span>
+  </footer>
+</div>
+
+<script>
+function toggleTheme() {
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-btn').textContent = isDark ? 'dark' : 'light';
+}
+
+function goIn() {
+  var entry = document.getElementById('entry');
+  var main = document.getElementById('main');
+  entry.classList.add('gone');
+  setTimeout(function() {
+    entry.style.display = 'none';
+    main.style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('cl').classList.add('open');
+      document.getElementById('cr').classList.add('open');
+      document.getElementById('rail').classList.add('show');
+      setTimeout(function() {
+        document.getElementById('scrollhint').classList.add('show');
+      }, 2400);
+    }, 300);
+  }, 750);
+}
+
+function playVideo() {
+  document.getElementById('yt-thumb').style.display = 'none';
+  var player = document.getElementById('player');
+  player.style.display = 'block';
+  player.src = 'https://www.youtube-nocookie.com/embed/xC0VRWjkS8U?autoplay=1&rel=0&modestbranding=1';
+}
+
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold: .1});
+document.querySelectorAll('.r').forEach(function(el) { obs.observe(el); });
+
+async function sendMsg(txt) {
+  var inp = document.getElementById('inp');
+  var msgs = document.getElementById('msgs');
+  var typing = document.getElementById('typing');
+  var q = txt || inp.value.trim();
+  if (!q) return;
+  var um = document.createElement('div');
+  um.className = 'msg user';
+  um.textContent = q;
+  msgs.appendChild(um);
+  inp.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+  msgs.appendChild(typing);
+  typing.classList.add('show');
+  msgs.scrollTop = msgs.scrollHeight;
+  try {
+    const res = await fetch('https://sksite-psi.vercel.app/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q })
+    });
+    var data = await res.json();
+    typing.classList.remove('show');
+    var bm = document.createElement('div');
+    bm.className = 'msg bot';
+    bm.innerHTML = '<span class="sndr">victoria.ai</span>' + data.reply;
+    msgs.appendChild(bm);
+    msgs.scrollTop = msgs.scrollHeight;
+  } catch(err) {
+    typing.classList.remove('show');
+    var bm = document.createElement('div');
+    bm.className = 'msg bot';
+    bm.innerHTML = '<span class="sndr">victoria.ai</span>something went wrong, email <a href="mailto:chernobayv05@gmail.com" style="color:var(--gr)">chernobayv05@gmail.com</a> directly.';
+    msgs.appendChild(bm);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+}
+function ask(q) { sendMsg(q); }
+</script>
+</body>
+</html>
