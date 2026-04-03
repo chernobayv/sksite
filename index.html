@@ -312,7 +312,7 @@ function onResults(res) {
   }
 }
 
-async function initCam() {
+ function initCam() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 260, height: 195 } });
     video.srcObject = stream;
@@ -386,8 +386,9 @@ async function sendChat(txt) {
     if (!res.ok) throw new Error('API error ' + res.status);
 
     const data = await res.json();
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text
-      || 'Something went wrong — try again.';
+    
+    // THIS IS THE FIX: Read the 'message' property we set in the backend
+    const reply = data.message || 'Something went wrong — try again.';
 
     chatHistory.push({ role: 'model', parts: [{ text: reply }] });
 
@@ -395,6 +396,7 @@ async function sendChat(txt) {
     thinking.querySelector('.msg-bubble').textContent = reply;
     thinking.querySelector('.msg-av').textContent = 'VC';
   } catch (e) {
+    console.error("Frontend Chat Error:", e);
     thinking.className = 'msg';
     thinking.querySelector('.msg-bubble').textContent = 'Connection error — reload and try again.';
   }
