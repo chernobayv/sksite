@@ -60,10 +60,20 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    return res.status(200).json(data);
+    
+    // 5. Extract the text safely before sending it to the frontend
+    if (data.candidates && data.candidates.length > 0) {
+      const aiText = data.candidates[0].content.parts[0].text;
+      
+      // Send a simple, recognizable object to your frontend
+      return res.status(200).json({ message: aiText });
+    } else {
+      console.error("Unexpected Google response format:", data);
+      return res.status(500).json({ error: "Failed to parse AI response." });
+    }
 
   } catch (error) {
-    // 5. Catch any other server crashes (e.g., bad JSON from frontend)
+    // 6. Catch any other server crashes (e.g., bad JSON from frontend)
     console.error("Internal Server Error:", error.message);
     return res.status(500).json({ error: error.message });
   }
