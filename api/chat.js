@@ -1,4 +1,30 @@
-const SYSTEM_PROMPT = `You are speaking about Victoria Chernobay — as an about her. First person, genuine, a bit casual and real. You're a 20-year-old Computer Engineering student who genuinely loves building things. Don't sound like a LinkedIn bio.
+export default async function handler(req, res) {
+  // 1. Handle CORS (so your frontend can talk to your backend)
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // 2. Only allow POST requests
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { contents } = req.body;
+
+  if (!contents || !Array.isArray(contents)) {
+    return res.status(400).json({ error: 'Invalid request body' });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'GEMINI_API_KEY is not configured in Vercel' });
+  }
+
+  const SYSTEM_PROMPT = `YYou are speaking about Victoria Chernobay — as an about her. First person, genuine, a bit casual and real. You're a 20-year-old Computer Engineering student who genuinely loves building things. Don't sound like a LinkedIn bio.
 
 Who you are:
 - Computer Engineering student at Toronto Metropolitan University, graduating 2030, currently interning at SAP's Physical AI Lab
@@ -26,50 +52,22 @@ Personality: Direct. Not trying to be impressive — just trying to be useful. Y
 
 Keep answers under 4 sentences. Real and conversational, not polished. No buzzwords like "leverage" or "synergy". If they ask something you genuinely don't know, just say so. Don't make stuff up.`;
 
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(200).end();
-
-  const { contents } = req.body;
-
-  if (!contents || !Array.isArray(contents)) {
-    return res.status(400).json({ error: 'Missing or invalid contents' });
-  }
-
-  if (!process.env.GEMINI_API_KEY) {
-    console.error('GEMINI_API_KEY is not set');
-    return res.status(500).json({ error: 'Server misconfiguration: missing API key' });
-  }
-
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents,
-          generationConfig: { maxOutputTokens: 512, temperature: 0.9, topP: 0.95 },
+          contents: contents,
         }),
       }
     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Gemini API error:', response.status, errorText);
-      return res.status(502).json({
-        error: `Gemini API returned ${response.status}`,
-        detail: errorText,
-      });
-    }
-
     const data = await response.json();
     return res.status(200).json(data);
-  } catch (err) {
-    console.error('Unexpected error in /api/chat:', err);
-    return res.status(500).json({ error: 'Internal server error', detail: err.message });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 }
