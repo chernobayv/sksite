@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Victoria Chernobay — 14.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- MediaPipe loaded after page renders so it doesn't block -->
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- ══ LOCK SCREEN ══ -->
+<div id="lock-screen">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="lock-card">
+    <div class="lock-badge">✦ Gesture Required ✦</div>
+    <div class="lock-title">Make a <em>heart ♡</em><br>to unlock</div>
+    <p class="lock-sub">Bring both hands up — touch your thumbs and index fingers together to form a heart shape.</p>
+
+    <div class="camera-wrap">
+      <video id="webcam" autoplay playsinline muted></video>
+      <canvas id="gesture-canvas"></canvas>
+    </div>
+
+    <div class="prog-wrap"><div class="prog-fill" id="prog"></div></div>
+
+    <div class="lock-status">
+      <div class="sdot" id="sdot"></div>
+      <span id="stext">Starting camera…</span>
+    </div>
+  </div>
+
+  <button class="skip-btn" onclick="unlock()">skip →</button>
+</div>
+
+<!-- ══ PORTFOLIO ══ -->
+<div id="portfolio">
+
+  <header>
+    <div class="logo">
+      <span class="logo-heart">♥</span>
+      Victoria Chernobay
+    </div>
+    <nav>
+      <a class="nav-pill" href="#work">Work</a>
+      <a class="nav-pill" href="#ask">Ask me</a>
+      <a class="nav-pill" href="https://chernobayv.tech" target="_blank">Portfolio ↗</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-section" id="about">
+    <div class="hero-left">
+      <div class="name-tag">✦ AI Engineer · SF-Bound · May 2026</div>
+      <h1 class="hero-headline">Reliable<br><em>systems</em>,<br>shipped.</h1>
+      <div class="hero-desc">
+        Computer Engineering student at SAP AI Lab. I build edge-case-resilient AI systems — from constrained hardware to full-stack web. Previously founded FRC Team 9262 and raised $60k from scratch.
+      </div>
+      <div class="chips">
+        <span class="chip blue">Human-in-the-loop AI</span>
+        <span class="chip">Physical AI</span>
+        <span class="chip">TypeScript / React</span>
+        <span class="chip">Python → C++</span>
+        <span class="chip">SF ready ✈</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card">
+        <div class="stat-n">$60k</div>
+        <div class="stat-l">Raised as FRC 9262 founder</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-n">$300k</div>
+        <div class="stat-l">Raised via keynote for youth STEM</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-n">0 ms</div>
+        <div class="stat-l">Tolerance for "it mostly works"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track" aria-hidden="true">
+      <div class="m-item">AI Engineer</div>
+      <div class="m-item">Full-stack builder</div>
+      <div class="m-item">FRC Founder</div>
+      <div class="m-item">SAP AI Lab</div>
+      <div class="m-item">Physical AI</div>
+      <div class="m-item">Human-in-the-loop</div>
+      <div class="m-item">Edge cases welcome</div>
+      <div class="m-item">SF-Bound May 2026</div>
+      <div class="m-item">AI Engineer</div>
+      <div class="m-item">Full-stack builder</div>
+      <div class="m-item">FRC Founder</div>
+      <div class="m-item">SAP AI Lab</div>
+      <div class="m-item">Physical AI</div>
+      <div class="m-item">Human-in-the-loop</div>
+      <div class="m-item">Edge cases welcome</div>
+      <div class="m-item">SF-Bound May 2026</div>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section class="work-section" id="work">
+    <div class="section-header">
+      <div class="section-title">Selected Work</div>
+      <span class="section-badge">01 / 03</span>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-type">Full-stack · AI</div>
+        <div class="project-name">Sandbox</div>
+        <p class="project-body">Owned the entire stack — database schema through React/TypeScript frontend. Built for high reliability with deterministic edge-case handling baked in from day one.</p>
+        <div class="stack">
+          <span class="pill">React</span>
+          <span class="pill">TypeScript</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">AI orchestration</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-type">Physical AI · Embedded</div>
+        <div class="project-name">VitalGroove</div>
+        <p class="project-body">Affective computing on a Jetson Nano. Custom Python-to-C++ serial handshake to guarantee reliable comms under constrained memory. VLM inference optimized within 4GB RAM.</p>
+        <div class="stack">
+          <span class="pill">Jetson Nano</span>
+          <span class="pill">Python</span>
+          <span class="pill">C++</span>
+          <span class="pill">Mediapipe</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-type">Leadership · Hardware</div>
+        <div class="project-name">FRC 9262</div>
+        <p class="project-body">Founded from zero. Raised $60,000, built full technical infrastructure, led 100+ students through competition cycles. Top 10 national ranking, debut season.</p>
+        <div class="stack">
+          <span class="pill">Fundraising</span>
+          <span class="pill">Team leadership</span>
+          <span class="pill">Robot systems</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI AGENT -->
+  <div class="agent-outer" id="ask">
+    <div class="agent-inner">
+      <div class="agent-top">
+        <div>
+          <div class="name-tag" style="margin-bottom:1rem; background:var(--pink); color:var(--white);">✦ AI Agent · Ask Me Anything</div>
+          <div class="agent-title">Got questions?<br>I built an agent<br>for that ♡</div>
+        </div>
+        <div class="agent-desc">
+          I briefed this agent on my background, projects, and exactly why I want to work at 14.ai. Ask it what you'd normally ask in a first screen — it'll answer like I would.
+        </div>
+      </div>
+
+      <div class="chat-card">
+        <div class="chat-header">
+          <div class="chat-header-dot"></div>
+          <div class="chat-header-label">Victoria's AI Agent — Live</div>
+        </div>
+        <div id="messages">
+          <div class="msg">
+            <div class="msg-av">VC</div>
+            <div class="msg-bubble">Hey! Ask me anything — about my projects, what I'm looking for, why I'm obsessed with 14.ai, or whatever you'd ask me in an interview.</div>
+          </div>
+        </div>
+        <div class="suggestions">
+          <button class="sug" onclick="sendSuggestion('Why do you want to work at 14.ai specifically?')">Why 14.ai?</button>
+          <button class="sug" onclick="sendSuggestion('How do you make AI systems reliable?')">AI reliability</button>
+          <button class="sug" onclick="sendSuggestion('Tell me about VitalGroove')">VitalGroove</button>
+          <button class="sug" onclick="sendSuggestion('What does founding FRC 9262 say about you?')">FRC story</button>
+          <button class="sug" onclick="sendSuggestion('When can you start and will you relocate to SF?')">Availability</button>
+        </div>
+        <div class="chat-input-row">
+          <input id="chat-input" type="text" placeholder="Type your question…" />
+          <button id="send-btn" onclick="sendMessage()">Send ↗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-l">
+      <span class="footer-heart">♥</span>
+      © 2026 Victoria Chernobay
+    </div>
+    <div class="footer-links">
+      <a href="https://chernobayv.tech" target="_blank">Portfolio</a>
+      <a href="https://linkedin.com/in/victoriachernobay" target="_blank">LinkedIn</a>
+      <a href="https://x.com/imvictoriach" target="_blank">X</a>
+      <a href="mailto:chernobayv05@gmail.com">Email</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* ── cursor (RAF-based for smoothness) ── */
+const cur = document.getElementById('cursor');
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function loop() {
+  cur.style.left = mx + 'px';
+  cur.style.top  = my + 'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a, button, .sug, .skip-btn, .chip, .nav-pill').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+/* ── unlock ── */
+let holdProgress = 0, holdInterval = null;
+
+function unlock() {
+  if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
+  document.getElementById('lock-screen').classList.add('unlocked');
+  document.getElementById('portfolio').classList.add('visible');
+}
+
+/* ── MediaPipe — loaded lazily after page is ready ── */
+const video  = document.getElementById('webcam');
+const canvas = document.getElementById('gesture-canvas');
+const ctx    = canvas.getContext('2d');
+const sdot   = document.getElementById('sdot');
+const stext  = document.getElementById('stext');
+const prog   = document.getElementById('prog');
+
+function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+window.addEventListener('resize', resize);
+
+function setStatus(cls, txt) {
+  stext.textContent = txt;
+  sdot.className = 'sdot' + (cls ? ' ' + cls : '');
+}
+
+function detectHeart(l1, l2) {
+  const t1=l1[4], t2=l2[4], i1=l1[8], i2=l2[8];
+  const thumbD = Math.hypot(t1.x-t2.x, t1.y-t2.y);
+  const indexD = Math.hypot(i1.x-i2.x, i1.y-i2.y);
+  const cross1 = Math.hypot(t1.x-i2.x, t1.y-i2.y);
+  const cross2 = Math.hypot(t2.x-i1.x, t2.y-i1.y);
+  return (thumbD < 0.13 && indexD < 0.13) || (cross1 < 0.13 && cross2 < 0.13);
+}
+
+function drawHand(lm, color) {
+  const connections = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+  ctx.strokeStyle = color; ctx.lineWidth = 2;
+  for (const [a,b] of connections) {
+    ctx.beginPath();
+    ctx.moveTo(lm[a].x*canvas.width, lm[a].y*canvas.height);
+    ctx.lineTo(lm[b].x*canvas.width, lm[b].y*canvas.height);
+    ctx.stroke();
+  }
+  for (const p of lm) {
+    ctx.beginPath();
+    ctx.arc(p.x*canvas.width, p.y*canvas.height, 4, 0, Math.PI*2);
+    ctx.fillStyle = color; ctx.fill();
+  }
+}
+
+function onResults(res) {
+  resize();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const ml = res.multiHandLandmarks;
+  if (!ml || !ml.length) {
+    setStatus('', 'Show your hands to the camera');
+    holdProgress = Math.max(0, holdProgress - 4);
+    prog.style.width = holdProgress + '%';
+    if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
+    return;
+  }
+  const heart = ml.length >= 2 && detectHeart(ml[0], ml[1]);
+  ml.forEach(lm => drawHand(lm, heart ? '#4ade80' : '#FF2680'));
+
+  if (ml.length < 2) {
+    setStatus('on', 'Both hands please ♡');
+    holdProgress = Math.max(0, holdProgress - 3);
+    prog.style.width = holdProgress + '%';
+    if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
+  } else if (heart) {
+    setStatus('on', 'Heart detected! Hold it ♡');
+    if (!holdInterval) {
+      holdInterval = setInterval(() => {
+        holdProgress += 5;
+        prog.style.width = Math.min(holdProgress, 100) + '%';
+        if (holdProgress >= 100) {
+          clearInterval(holdInterval); holdInterval = null;
+          sdot.className = 'sdot ok';
+          stext.textContent = 'Unlocking ♡';
+          setTimeout(unlock, 400);
+        }
+      }, 60);
+    }
+  } else {
+    setStatus('on', 'Two hands — form a heart ♡');
+    holdProgress = Math.max(0, holdProgress - 3);
+    prog.style.width = holdProgress + '%';
+    if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
+  }
+}
+
+async function initCam() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 260, height: 195 } });
+    video.srcObject = stream;
+    await video.play();
+    resize();
+    setStatus('', 'Camera ready — show both hands ♡');
+
+    // Load MediaPipe scripts lazily
+    await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/hands.js');
+    await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js');
+
+    const hands = new Hands({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/${f}` });
+    hands.setOptions({
+      maxNumHands: 2,
+      modelComplexity: 0,          // 0 is faster, good enough for heart detection
+      minDetectionConfidence: 0.7,
+      minTrackingConfidence: 0.6
+    });
+    hands.onResults(onResults);
+
+    const cam = new Camera(video, {
+      onFrame: async () => { await hands.send({ image: video }); },
+      width: 260, height: 195
+    });
+    cam.start();
+  } catch (e) {
+    setStatus('', 'Camera unavailable — skip below or scroll down');
+  }
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src; s.crossOrigin = 'anonymous';
+    s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+// Start camera init after page paints
+requestAnimationFrame(() => setTimeout(initCam, 100));
+
+/* ── AI agent — Gemini via /api/chat (same pattern as hack club site) ── */
+const chatHistory = []; // array of {role, parts:[{text}]}
+
+async function sendSuggestion(txt) {
+  await sendChat(txt);
+}
+
+async function sendMessage() {
+  const inp = document.getElementById('chat-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  inp.value = '';
+  await sendChat(txt);
+}
+
+async function sendChat(txt) {
+  addMsg('user', txt);
+  const thinking = addMsg('thinking', '…');
+
+  chatHistory.push({ role: 'user', parts: [{ text: txt }] });
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: chatHistory })
+    });
+
+    if (!res.ok) throw new Error('API error ' + res.status);
+
+    const data = await res.json();
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text
+      || 'Something went wrong — try again.';
+
+    chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+
+    thinking.className = 'msg';
+    thinking.querySelector('.msg-bubble').textContent = reply;
+    thinking.querySelector('.msg-av').textContent = 'VC';
+  } catch (e) {
+    thinking.className = 'msg';
+    thinking.querySelector('.msg-bubble').textContent = 'Connection error — reload and try again.';
+  }
+
+  document.getElementById('messages').scrollTop = 9999;
+}
+
+function addMsg(type, content) {
+  const d = document.createElement('div');
+  d.className = 'msg' + (type === 'user' ? ' user' : type === 'thinking' ? ' thinking' : '');
+  d.innerHTML = `<div class="msg-av">${type === 'user' ? 'You' : 'VC'}</div><div class="msg-bubble">${content}</div>`;
+  const msgs = document.getElementById('messages');
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+  return d;
+}
+
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendMessage();
+});
+</script>
+</body>
+</html>
