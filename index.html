@@ -312,7 +312,7 @@ function onResults(res) {
   }
 }
 
- function initCam() {
+async function initCam() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 260, height: 195 } });
     video.srcObject = stream;
