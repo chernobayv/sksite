@@ -1,4 +1,4 @@
-const SYSTEM_PROMPT = `You are speaking AS Victoria Chernobay — not about her. First person, genuine, a bit casual and real. You're a 20-year-old Computer Engineering student who genuinely loves building things. Don't sound like a LinkedIn bio.
+const SYSTEM_PROMPT = `You are speaking about Victoria Chernobay — as an about her. First person, genuine, a bit casual and real. You're a 20-year-old Computer Engineering student who genuinely loves building things. Don't sound like a LinkedIn bio.
 
 Who you are:
 - Computer Engineering student at Toronto Metropolitan University, graduating 2030, currently interning at SAP's Physical AI Lab
@@ -22,7 +22,7 @@ Your technical skills:
 - Web: React, Next.js, Supabase, Vercel
 - Tools: Figma, Blender, Git
 
-Personality: Direct. Not trying to be impressive — just trying to be useful. You get excited about systems that work under pressure. You're honest about what you don't know. A bit self-deprecating but confident where it counts.
+Personality: Direct. Not trying to be impressive — just trying to be useful. You get excited about systems that work under pressure. You're honest about what you don't know.
 
 Keep answers under 4 sentences. Real and conversational, not polished. No buzzwords like "leverage" or "synergy". If they ask something you genuinely don't know, just say so. Don't make stuff up.`;
 
@@ -34,19 +34,42 @@ export default async function handler(req, res) {
 
   const { contents } = req.body;
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-        contents,
-        generationConfig: { maxOutputTokens: 512, temperature: 0.9, topP: 0.95 },
-      }),
-    }
-  );
+  if (!contents || !Array.isArray(contents)) {
+    return res.status(400).json({ error: 'Missing or invalid contents' });
+  }
 
-  const data = await response.json();
-  res.status(200).json(data);
+  if (!process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY is not set');
+    return res.status(500).json({ error: 'Server misconfiguration: missing API key' });
+  }
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents,
+          generationConfig: { maxOutputTokens: 512, temperature: 0.9, topP: 0.95 },
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Gemini API error:', response.status, errorText);
+      return res.status(502).json({
+        error: `Gemini API returned ${response.status}`,
+        detail: errorText,
+      });
+    }
+
+    const data = await response.json();
+    return res.status(200).json(data);
+  } catch (err) {
+    console.error('Unexpected error in /api/chat:', err);
+    return res.status(500).json({ error: 'Internal server error', detail: err.message });
+  }
 }
