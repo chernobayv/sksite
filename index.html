@@ -377,7 +377,8 @@ async function sendChat(txt) {
   chatHistory.push({ role: 'user', parts: [{ text: txt }] });
 
   try {
-    const res = await fetch('/api/chat', {
+    // Replace the URL below with your actual Vercel project URL
+    const res = await fetch('https://YOUR-PROJECT-NAME.vercel.app/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ contents: chatHistory })
