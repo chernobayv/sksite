@@ -377,8 +377,7 @@ async function sendChat(txt) {
   chatHistory.push({ role: 'user', parts: [{ text: txt }] });
 
   try {
-    // Replace the URL below with your actual Vercel project URL
-    const res = await fetch('https://YOUR-PROJECT-NAME.vercel.app/api/chat', {
+    const res = await fetch('https://sksite-swart.vercel.app/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ contents: chatHistory })
@@ -388,7 +387,6 @@ async function sendChat(txt) {
 
     const data = await res.json();
     
-    // THIS IS THE FIX: Read the 'message' property we set in the backend
     const reply = data.message || 'Something went wrong — try again.';
 
     chatHistory.push({ role: 'model', parts: [{ text: reply }] });
